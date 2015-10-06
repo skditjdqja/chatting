@@ -1,7 +1,6 @@
 import sys
 import socket
 import select
-import pickle
 import string
 
 HOST = 'localhost' 
@@ -83,17 +82,6 @@ def chat_server():
 								for x in range (len(NAME_LIST)):
 									if NAME_LIST[x]==temp1[1]:
 										send_msg(NAME_LIST[x-1], "["+user+"] : "+temp2+"\n")
-							'''
-							temp2=""
-							for x in range(len(temp1)):
-								if x!=0 and x!=1:
-									if not temp2:
-										temp2=str(temp1[x])
-									else:
-										temp2+=" "
-										temp2+=temp1[x]
-							send_msg(sock, str(temp1[1]),temp2+"\n")
-							'''
 								
 						elif temp1[0]=="sendall" :
 							
@@ -119,7 +107,6 @@ def chat_server():
 								broadcast(server_socket, sock, "["+user+"] : "+temp2+"\n")
 							
 						elif temp1[0]=="list" :
-							#send_msg(sock, "cobo\n")
 							logged = 0
 							for x in range (len(NAME_LIST)):
 								if NAME_LIST[x]==sock:

@@ -51,40 +51,49 @@ def chat_server():
 					
 					if data:
 						#broadcast(server_socket, sock, "\r" + '[' + str(sock.getpeername()) + '] ' + data)  
+                                                #pemisah command dgn message
 						temp1 = string.split(data[:-1])
-				
+                                                
 						d=len(temp1)
+                                                #jika kata prtama adlh "login", masuk ke fungsi login 
 						if temp1[0]=="login" :
 							log_in(sock, str(temp1[1]))
-								
+						#jika kata prtama adlh "send". Contoh "send toto hello"		
 						elif temp1[0]=="send" :
-							
+							#logged itu utk status apakah user udh login ato blm
 							logged = 0
 							user = ""
+                                                        #x adlh iterator sebanyak isi array NAME_LIST. ini utk cek apakah nama user udh masuk di NAME_LIST ato blm
 							for x in range (len(NAME_LIST)):
+                                                                #jika ada di array NAME_LIST, user tsb udh login
 								if NAME_LIST[x]==sock:
 									logged=1
+                                                                        #masukkan nama user yg diinputkan ke variabel user, nnti disimpan di NAME_LIST
 									user=NAME_LIST[x+1]
 							
+                                                        #jika user blm login
 							if logged==0:
 								send_msg(sock, "You need to login to start a chat\n")
-							
+							#jika udh login
 							else:
 								temp2=""
+                                                                #x adlh iterator sebanyak panjang temp1
 								for x in range (len(temp1)):
 									if x>1:
+                                                                                #jika temp2 msh kosong, temp2 diisi kata dari index ke-2 temp1
 										if not temp2:
 											temp2+=str(temp1[x])
+                                                                                #jika temp2 udh ada isinya, temp2 diisi spasi dan kata selanjutnya
 										else:
 											temp2+=" "
 											temp2+=str(temp1[x])
-								
+								#utk kirim message ke user yg dituju
 								for x in range (len(NAME_LIST)):
 									if NAME_LIST[x]==temp1[1]:
 										send_msg(NAME_LIST[x-1], "["+user+"] : "+temp2+"\n")
 															
 						elif temp1[0]=="sendall" :
-							
+						#contoh "sendall hi everybody"	
 							logged = 0
 							user = ""
 							for x in range (len(NAME_LIST)):
@@ -104,8 +113,10 @@ def chat_server():
 										else:
 											temp2+=" "
 											temp2+=temp1[x]
+                                                                #broadcast ini utk kirim pesan ke semua user yg online
 								broadcast(server_socket, sock, "["+user+"] : "+temp2+"\n")
 							
+                                                #utk liat daftar user yg ter-connect. contoh "list"
 						elif temp1[0]=="list" :
 							logged = 0
 							for x in range (len(NAME_LIST)):
@@ -117,6 +128,7 @@ def chat_server():
 							
 							else:
 								temp2=""
+                                                                #cari nama user dri index ganjil array NAME_LIST (soalnya disimpan dgn urutan alamat, nama, alamat, nama) 
 								for x in range (len(NAME_LIST)):
 									if x%2==1:
 										temp2+=" "
@@ -182,11 +194,14 @@ def log_in (sock, user):
 		if name == sock:
 			f = 1
 	
+        #jika user sblmnya udh login tapi dia login lg
 	if f==1:
 		send_msg(sock, "You already have a username\n")
+        #jika user memilih nama yg sblmya udh terdaftar
 	elif g==1:
 		send_msg(sock, "Username already exist. Enter another name\n")
 	else:
+                #data user (alamat, nama) dimasukkan ke array NAME_LIST
 		NAME_LIST.append(sock)
 		NAME_LIST.append(user)
 		send_msg(sock, "Login success. You can start a conversation now\n")

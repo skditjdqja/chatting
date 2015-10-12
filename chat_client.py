@@ -47,19 +47,26 @@ def chat_client():
 			else :
 				# user entered a message
 				msg = []
+                                # menyediakan input utk masukkan kata
 				temp = sys.stdin.readline()
+				# temp1 khusus buat command
 				temp1 = string.split(temp[:-1])
-				
+				# d adlh panjang array temp1
 				d=len(temp1)
+				# jika kata pertama adlh "login"
 				if temp1[0]=="login" :
+                                        # command "login" tdk boleh lbh dari 2 kata
 					if d>2:
 						print('The username is invalid')
+                                        # command "login" tdk boleh kurang dri 2 kata
 					elif d<2:
 						print('Login need username. Enter your username')
+                                        # klo memenuhi kriteria, kirim pesan ke server
 					else:
 						s.send(temp)
-						
+				# jika kata prtama adlh "send"		
 				elif temp1[0]=="send" :
+                                        # command "send" hrus lbh dri 3 kata. contoh "send toto hello"
 					if d<3:
 						print('Invalid Send Command')
 					else:

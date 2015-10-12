@@ -18,7 +18,7 @@ def chat_server():
 	#creating TCP/IP socket
 	server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-	
+
 	# binding the socket (available for 10)
 	server_socket.bind((HOST, PORT))
 	server_socket.listen(10)
@@ -82,9 +82,32 @@ def chat_server():
 								for x in range (len(NAME_LIST)):
 									if NAME_LIST[x]==temp1[1]:
 										send_msg(NAME_LIST[x-1], "["+user+"] : "+temp2+"\n")
-								
-													
+															
+						elif temp1[0]=="sendall" :
+							
+							logged = 0
+							user = ""
+							for x in range (len(NAME_LIST)):
+								if NAME_LIST[x]==sock:
+									logged=1
+									user=NAME_LIST[x+1]
+							
+							if logged==0:
+								send_msg(sock, "You need to login to start a chat\n")
+							
+							else:
+								temp2=""
+								for x in range(len(temp1)):
+									if x!=0:
+										if not temp2:
+											temp2=str(temp1[x])
+										else:
+											temp2+=" "
+											temp2+=temp1[x]
+								broadcast(server_socket, sock, "["+user+"] : "+temp2+"\n")
+							
 						elif temp1[0]=="list" :
+							#send_msg(sock, "cobo\n")
 							logged = 0
 							for x in range (len(NAME_LIST)):
 								if NAME_LIST[x]==sock:
@@ -101,7 +124,14 @@ def chat_server():
 										temp2+=str(NAME_LIST[x])
 								send_msg(sock, "[List of User(s)] : "+temp2+"\n")
 							
-						
+						elif temp1[0]=="whoami" :
+							g = 0
+							for name in range (len(NAME_LIST)):
+								if NAME_LIST[name]==sock:
+									g = 1
+									send_msg(sock, "Username : "+str(NAME_LIST[name+1])+"\n")
+							if g==0:
+								send_msg(sock, "You haven't login\n")
 								
 						else:
 							print ('Invalid Command')

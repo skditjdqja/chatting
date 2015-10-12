@@ -65,6 +65,12 @@ def chat_client():
 					else:
 						s.send(temp)
 						
+				elif temp1[0]=="sendall" :
+					if d<2:
+						print("Invalid SendAll Command")
+					else:
+						s.send(temp)
+						
 				elif temp1[0]=="list" :
 					if d>1:
 						print('List does not have parameter')

@@ -107,7 +107,6 @@ def chat_server():
 								broadcast(server_socket, sock, "["+user+"] : "+temp2+"\n")
 							
 						elif temp1[0]=="list" :
-							#send_msg(sock, "cobo\n")
 							logged = 0
 							for x in range (len(NAME_LIST)):
 								if NAME_LIST[x]==sock:

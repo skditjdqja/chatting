@@ -1,20 +1,14 @@
-import sys
-import socket
-import select
-import string
+import sys, socket, select, string
 
 HOST = 'localhost' 
 SOCKET_LIST = []
 NAME_LIST = []
 RECV_BUFFER = 4096 
-PORT = 1
+PORT = 11000
 
 
 def chat_server():
 
-	sys.stdout.write('Port : ')
-	PORT = int(sys.stdin.readline())
-	
 	#creating TCP/IP socket
 	server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
@@ -27,6 +21,7 @@ def chat_server():
 	SOCKET_LIST.append(server_socket)
 
 	print "The chat server is started on Port " + str(PORT)
+        print "and the Host is " + str(HOST)
 
 	while True:
 		# get the list sockets which are ready to be read through select

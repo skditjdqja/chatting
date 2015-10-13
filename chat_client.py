@@ -1,16 +1,15 @@
-import sys
-import socket
-import select
-import time
-import string
+import sys, socket, select, time, string
  
 def chat_client():
 
-	sys.stdout.write('Host : ')
-	host = sys.stdin.readline()
-	
-	sys.stdout.write('Port : ')
-	port = int(sys.stdin.readline())
+	# connect to which server
+        if(len(sys.argv) < 3) :
+                print 'Enter the Host name and the Port address'
+                sys.exit()
+
+        # host is 'localhost' and port is 10000
+        host = sys.argv[1]
+        port = int(sys.argv[2])
      
     # create TCP/IP socket
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

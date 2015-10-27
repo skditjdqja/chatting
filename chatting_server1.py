@@ -1,6 +1,4 @@
-import sys
-import socket
-import select
+import sys, socket, select
 
 HOST = 'localhost' 
 SOCKET_LIST = []

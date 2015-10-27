@@ -1,6 +1,4 @@
-import sys
-import socket
-import select
+import sys, socket, select
  
 def chat_client():
     # connect to which server

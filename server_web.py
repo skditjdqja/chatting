@@ -1,11 +1,11 @@
-# chat_server.py
+# server_web.py
  
 import sys, socket, select
 
 HOST = '' 
 SOCKET_LIST = []
 RECV_BUFFER = 4096 
-PORT = 9009
+PORT = 80
 
 def chat_server():
 

@@ -34,3 +34,10 @@ while True:
         # Clean up the connection
         connection.sendall(http_response)
 	connection.close()
+
+#TCP/IP 소켓을 생성하고
+#생성된 소캣을 포트에 결합시킨다. 이때 포트번호는 8888이다.
+#데이터 통신을 위해 항상 Listening을 하여 기다린다.
+#클라이언트 주소와 소켓허용이 일치해야 통신이 가능하다.
+#데이터는 1024크기를 받으며 받을 경우 출력을 하고 HTTP응답코드 200으로 한다.
+#연결이 끝난 후 close 한다.

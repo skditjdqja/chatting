@@ -138,6 +138,40 @@ def chat_server():
 									send_msg(sock, "Username : "+str(NAME_LIST[name+1])+"\n") # 유저 이름을 알려준다.
 							if g==0: # 소켓이 NAME_LIST에 존재하지 않으면,
 								send_msg(sock, "You haven't login\n") # 아직 로그인하지 않았다는 메시지를 보낸다.
+						elif temp1[0]=="randomchat"#한재희 기능 추가 내용
+                                                       #logged itu utk status apakah user udh login ato blm
+							logged = 0
+							user = ""
+                                                        #x adlh iterator sebanyak isi array NAME_LIST. ini utk cek apakah nama user udh masuk di NAME_LIST ato blm
+							for x in range (len(NAME_LIST)):
+                                                                #jika ada di array NAME_LIST, user tsb udh login
+								if NAME_LIST[x]==sock:
+									logged=1
+                                                                        #masukkan nama user yg diinputkan ke variabel user, nnti disimpan di NAME_LIST
+									user=NAME_LIST[x+1]
+							
+                                                        #jika user blm login
+							if logged==0:
+								send_msg(sock, "You need to login to start a chat\n")
+							#jika udh login
+							else:
+								temp2=""
+                                                                #x adlh iterator sebanyak panjang temp1
+								for x in range (len(temp1)):
+									if x>1:
+                                                                                #jika temp2 msh kosong, temp2 diisi kata dari index ke-2 temp1
+										if not temp2:
+											temp2+=str(temp1[x])
+                                                                                #jika temp2 udh ada isinya, temp2 diisi spasi dan kata selanjutnya
+										else:
+											temp2+=" "
+											temp2+=str(temp1[x])
+								#utk kirim message ke user yg ditujurrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr
+								for x in range (len(NAME_LIST)):#채팅을 치는 과정에서 상대를 랜덤하게 골라 채팅이 전송되게 수정.
+                                                                        while i < ran
+                                                                                opposite=NAME_LIST[i]
+									send_msg(opposite, "["+user+"] : "+temp2+"\n")
+											
 								
 						else: # 위의 모든 경우에 해당하지 않는 알려지지 않은 명령어를 입력할 경우,
 							print ('Invalid Command')

@@ -52,7 +52,10 @@ def chat_server():
 						d=len(temp1) # d는 temp1의 길이이다.
                                                 #jika kata prtama adlh "login", masuk ke fungsi login 
 						if temp1[0]=="login" : # temp1의 내용이 login일 경우 로그인 시도를 하는 것으로서,
-							log_in(sock, str(temp1[1])) # 소켓과 temp1[1]을 인자로 log_in 함수를 실행한다..
+							username=log_in(sock, str(temp1[1])) # 소켓과 temp1[1]을 인자로 log_in 함수를 실행한다..
+							if username != 0 :
+                                                                broadcast(server_socket, sock, "[%s] has joined the chat\n" % username)
+                                                                
 						#jika kata prtama adlh "send". Contoh "send toto hello"		
 						elif temp1[0]=="send" : # 만약 temp1의 내용이 send일 경우,
 							#logged itu utk status apakah user udh login ato blm
@@ -226,13 +229,16 @@ def log_in (sock, user): # log_in 함수를 정의한다.
         #jika user sblmnya udh login tapi dia login lg
 	if f==1: # f가 true일 경우는 name과 sock의 값이 같은 것이므로 이미 유저네임이 존재하는 것이다.
 		send_msg(sock, "You already have a username\n") # 유저네임이 이미 존재한다고 알린다.
+                return 0
         #jika user memilih nama yg sblmya udh terdaftar
 	elif g==1: # g가 true일 경우는 이미 username이 NAME_LIST에 존재하는 것이므로 이미 사용되고 있는 username이다.
 		send_msg(sock, "Username already exist. Enter another name\n") # 이미 사용되고 있는 username임을 알린다.
+		return 0
 	else: # 위의 사항이 모두 해당되지 않으면 로그인이 정상적으로 완료된 것으로서,
                 #data user (alamat, nama) dimasukkan ke array NAME_LIST
 		NAME_LIST.append(sock) # NAME_LIST에 sock을 추가하고,
 		NAME_LIST.append(user) # NAME_LIST에 user를 추가한다.
 		send_msg(sock, "Login success. You can start a conversation now\n") # 로그인 성공을 알린다.
+                return user
 	
 chat_server()

@@ -171,6 +171,15 @@ def chat_server():
 									send_msg(sock, "Username : "+str(NAME_LIST[name+1])+"\n") # 유저 이름을 알려준다.
 							if g==0: # 소켓이 NAME_LIST에 존재하지 않으면,
 								send_msg(sock, "You haven't login\n") # 아직 로그인하지 않았다는 메시지를 보낸다.
+
+                                                elif temp1[0]=="logout": #전인창 로그아웃 기능 
+
+                                                        NAME_LIST.remove(sock)
+                                                        NAME_LIST.remove(username)
+                                                        
+                                                        broadcast(server_socket, sock, "[%s] has joined the chat\n" % username)
+                                                        
+						
 								
 						elif temp1[0]=="randomchat"#한재희 기능 추가 내용
                                                        #logged itu utk status apakah user udh login ato blm

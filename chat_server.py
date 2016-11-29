@@ -1,10 +1,15 @@
-import sys, socket, select, string, os, time
+import sys, socket, select, string, os, time os.path
+
 
 HOST = 'localhost' 
 SOCKET_LIST = []
 NAME_LIST = []
 RECV_BUFFER = 4096 
 PORT = 11000
+
+extension = os.path.splitext(filename)[1] # 확장자 파일이름 확인
+filename.split(".")[-1] = "jpg","png","docx","xls","pptx","txt" #허용된 확장자
+
 
 def fileC2S(conn,fileName):
 	print ":: DownLoading... ::"
@@ -171,6 +176,7 @@ def chat_server():
 									send_msg(sock, "Username : "+str(NAME_LIST[name+1])+"\n") # 유저 이름을 알려준다.
 							if g==0: # 소켓이 NAME_LIST에 존재하지 않으면,
 								send_msg(sock, "You haven't login\n") # 아직 로그인하지 않았다는 메시지를 보낸다.
+						if extension(filename)=="jpg","png","docx","xls","pptx","txt" # 파일 확장자 검사
 
 						elif temp1[0]=="down" : 
 							sockfd.sendall(temp1)

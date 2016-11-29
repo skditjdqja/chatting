@@ -1,4 +1,28 @@
-import sys, socket, select, time, string
+import sys, socket, select, time, string, os
+ 
+ def fileC2S(sock,fileName):
+	f = open(fileName,'rb')
+	while 1:
+		fileData=f.read()
+		if fileData =='' :
+			time.sleep(TIME_SLEEP)
+			sock.send("[@EOF]")
+			break
+		else : 
+			sock.send(fileData)
+
+def fileS2C(sock,fileName) :
+	fileParse = os.path.split(fileName);
+	f = open('_'+fileParse[1],'wb')
+		
+	while 1:
+		data = sock.recv(1024)
+		if data.find('[@EOF]') >= 0 :
+			break
+		else : 
+
+			f.write(data)
+	f.close()
  
 def chat_client():
 
@@ -88,11 +112,19 @@ def chat_client():
 						print('Whoami does not have parameter')
 					else:
 						s.send(temp)
-                                elif temp1[0]=="randomchat": #한재희 랜덤채팅기능
-                                        if d>1:
-                                                print("randomchat does not have parameter")
-                                        else:
-                                                s.send(temp)
+
+				elif temp1[0]=="randomchat": #한재희 랜덤채팅기능
+					if d>1:
+						print("randomchat does not have parameter")
+				else:
+					s.send(temp)
+						
+				elif temp1[0]=="down" :
+					fileC2S(s,data[5::])
+					
+				elif temp1[0]=="up" :
+					fileS2C(s,data[3::])
+						
 				else:
 					print ('Invalid Command')
 				

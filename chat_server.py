@@ -1,4 +1,4 @@
-import sys, socket, select, string
+import sys, socket, select, string, os, time
 
 HOST = 'localhost' 
 SOCKET_LIST = []
@@ -6,6 +6,36 @@ NAME_LIST = []
 RECV_BUFFER = 4096 
 PORT = 11000
 
+def fileC2S(conn,fileName):
+	print ":: DownLoading... ::"
+	time.sleep(TIME_SLEEP)
+
+	f = open('_'+fileName,'wb')
+	while 1:
+		data = conn.recv(1024)
+		if data.find('[@EOF]') >=0 :
+			break
+		else :
+			f.write(data)
+	print ":: FINISH :: "		
+	f.close()
+
+def fileS2C(conn,fileName) :
+	print ":: Uploading... ::"
+	time.sleep(TIME_SLEEP)
+
+	f = open(fileName,'rb')
+	while 1 :
+		fileData = f.read()
+		if fileData=='' :
+			time.sleep(TIME_SLEEP)
+			conn.sendall("[@EOF]")	
+			break
+		else :
+			conn.sendall(fileData)
+		
+	print "::: FINISH :: "	
+	f.close()	
 
 def chat_server():
 
@@ -141,6 +171,7 @@ def chat_server():
 									send_msg(sock, "Username : "+str(NAME_LIST[name+1])+"\n") # 유저 이름을 알려준다.
 							if g==0: # 소켓이 NAME_LIST에 존재하지 않으면,
 								send_msg(sock, "You haven't login\n") # 아직 로그인하지 않았다는 메시지를 보낸다.
+								
 						elif temp1[0]=="randomchat"#한재희 기능 추가 내용
                                                        #logged itu utk status apakah user udh login ato blm
 							logged = 0
@@ -175,6 +206,15 @@ def chat_server():
                                                                                 opposite=NAME_LIST[i]
 									send_msg(opposite, "["+user+"] : "+temp2+"\n")
 											
+						elif temp1[0]=="down" : 
+							sockfd.sendall(temp1)
+							fileParse=os.path.split(temp1[5::])
+							fileC2S(sockfd,fileParse[1])
+	
+						elif temp1[0]=="up" :
+							sockfd.sendall(temp1)
+							fileS2C(sockfd,input_value[3::])
+
 								
 						else: # 위의 모든 경우에 해당하지 않는 알려지지 않은 명령어를 입력할 경우,
 							print ('Invalid Command')
